@@ -1,0 +1,38 @@
+parameters:
+    vaderlab.security.user_provider.class: 'VaderLab\SecurityBundle\Service\User\Provider\UserProvider'
+    vaderlab.api.http_client.class: 'VaderLab\SecurityBundle\Http\Client'
+    vaderlab.security_users_information_get: '/api/user/current.json'
+    vaderlab.security.authentificator.class: 'VaderLab\SecurityBundle\Security\Authentificator'
+
+services:
+
+    vaderlab.security.cache_factory:
+        class: 'VaderLab\SecurityBundle\Service\Cache\CreateCacheProviderFactory'
+        arguments:
+            - '@service_container'
+            - '%vaderlab.security.api.cache_provider%'
+
+    vaderlab.security.cache:
+        class: VaderLab\SecurityBundle\Service\Cache\CacheProviderInterface
+        factory: ['@vaderlab.security.cache_factory', create]
+
+    vaderlab.security.user_provider:
+        class: '%vaderlab.security.user_provider.class%'
+        public: true
+        arguments:
+            - '@vaderlab.api.http_client'
+            - '%vaderlab.security_users_information_get%'
+
+    vaderlab.security.authentificator:
+        class: '%vaderlab.security.authentificator.class%'
+        public: true
+        arguments:
+            - '@vaderlab.api.http_client'
+
+    vaderlab.api.http_client:
+        class: '%vaderlab.api.http_client.class%'
+        public: true
+        arguments:
+            - '%vaderlab.security.api.url%'
+            - '%vaderlab.security.api.timeout%'
+            - '%vaderlab.security.api.api_key%'
