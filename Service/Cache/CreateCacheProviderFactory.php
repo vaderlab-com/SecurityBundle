@@ -16,7 +16,7 @@ class CreateCacheProviderFactory
     private $container;
     private $serviceName;
 
-    public function __construct(Container $container, string $serviceName)
+    public function __construct(Container $container, string $serviceName = '')
     {
         $this->container = $container;
         $this->serviceName = $serviceName;
