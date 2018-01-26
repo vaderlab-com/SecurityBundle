@@ -1,7 +1,7 @@
 {
   "name" : "vaderlab/security-bundle",
   "description" : "Bundle for connect to the Vaderlab Services API",
-  "version" : "v1.0.2",
+  "version" : "v1.0.3",
   "type" : "symfony-bundle",
   "homepage": "https://github.com/vaderlab-com/SecurityBundle",
   "license" : "MIT",
