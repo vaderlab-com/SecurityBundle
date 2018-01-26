@@ -21,7 +21,7 @@ Update composer.json
 ```
 "require" : {
     [...]
-    "vaderlab/security-bundle" : "^v1.0"
+    "vaderlab/security-bundle" : "1.0.0"
 },
     "repositories" : [{
         "type" : "vcs",

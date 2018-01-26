@@ -26,7 +26,7 @@ class CreateCacheProviderFactory
      * @return object
      * @throws \Exception | InvalidCacheFactoryException
      */
-    public function create()
+    public function create(): CacheProviderInterface
     {
         if(!$this->serviceName) {
             return new EmptyCacheProvider();

@@ -5,7 +5,6 @@ parameters:
     vaderlab.security.authentificator.class: 'VaderLab\SecurityBundle\Security\Authentificator'
 
 services:
-
     vaderlab.security.cache_factory:
         class: 'VaderLab\SecurityBundle\Service\Cache\CreateCacheProviderFactory'
         arguments:
@@ -13,8 +12,11 @@ services:
             - '%vaderlab.security.api.cache_provider%'
 
     vaderlab.security.cache:
-        class: VaderLab\SecurityBundle\Service\Cache\CacheProviderInterface
-        factory: ['@vaderlab.security.cache_factory', create]
+        class: 'VaderLab\SecurityBundle\Service\Cache\CacheProviderInterface'
+        factory: ['@vaderlab.security.cache_factory', 'create']
+#        arguments:
+#            - '@service_container'
+#            - '%vaderlab.security.api.cache_provider%'
 
     vaderlab.security.user_provider:
         class: '%vaderlab.security.user_provider.class%'
@@ -22,6 +24,7 @@ services:
         arguments:
             - '@vaderlab.api.http_client'
             - '%vaderlab.security_users_information_get%'
+            - '@vaderlab.security.cache'
 
     vaderlab.security.authentificator:
         class: '%vaderlab.security.authentificator.class%'

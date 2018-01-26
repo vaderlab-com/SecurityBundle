@@ -20,8 +20,6 @@ use VaderLab\SecurityBundle\Service\Cache\Provider\EmptyCacheProvider;
 
 class UserProvider implements UserProviderInterface
 {
-    private const CACHE_PREFIX = '_vdrlb_user_data_';
-
     /**
      * @var string
      */
@@ -33,25 +31,24 @@ class UserProvider implements UserProviderInterface
     private $httpClient;
 
     /**
-     * @var
+     * @var CacheProviderInterface
      */
     private $cache;
 
     /**
      * UserProvider constructor.
      * @param ApiHttpClientInterface $httpClient
-     * @param CacheProviderInterface $cache
      * @param string $userInformationUrl
-     * @param int $cacheTtl
+     * @param CacheProviderInterface $cache
      */
     public function __construct(
         ApiHttpClientInterface $httpClient,
         string $userInformationUrl,
-        CacheProviderInterface $cache = null
+        $cache = null
     ) {
         $this->httpClient = $httpClient;
         $this->userinfoUrl = $userInformationUrl;
-        $this->cache = $cache ? $cache : new EmptyCacheProvider();
+        $this->cache = $cache;
     }
 
     /**
@@ -100,13 +97,12 @@ class UserProvider implements UserProviderInterface
             return null;
         }
 
-        $cacheKey = sprintf('%s_%s', self::CACHE_PREFIX, $bearer);
-        $data = $this->cache->get($cacheKey);
+        $data = $this->cache->get($bearer);
         if($data) {
             return json_decode($data, true);
         }
 
-        if(!$this->cache->exists($cacheKey)) {
+        if(!$this->cache->exists($bearer)) {
             try {
                 $data = $this->httpClient->get($this->userinfoUrl);
             } catch (\Exception $exception) {
@@ -124,7 +120,7 @@ class UserProvider implements UserProviderInterface
             throw new InternalErrorException('Content is broken ', $content);
         }
 
-        $this->cache->set($cacheKey, $content);
+        $this->cache->set($bearer, $content);
 
         return $data;
     }
