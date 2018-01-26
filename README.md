@@ -36,6 +36,28 @@ And install bundle
 composer update vaderlab/security-bundle
 ```
 
+
+Example configuration for app firewall in security.yml
+```
+security:
+    acl:
+        connection: default
+
+    providers:
+        vaderlab:
+            id: 'vaderlab.security.user_provider'
+
+    firewalls:
+        api:
+            pattern: ^/api
+            stateless: true
+            anonymous: false
+            simple_preauth:
+                authenticator: 'vaderlab.security.authentificator'
+            provider: 'vaderlab'
+
+```
+
 Configure config.yml
 
 ```
