@@ -8,7 +8,7 @@
 
 namespace VaderLab\SecurityBundle\Service\Cache;
 
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use VaderLab\SecurityBundle\Service\Cache\Provider\EmptyCacheProvider;
 
 class CreateCacheProviderFactory
@@ -16,7 +16,7 @@ class CreateCacheProviderFactory
     private $container;
     private $serviceName;
 
-    public function __construct(Container $container, string $serviceName = '')
+    public function __construct(ContainerInterface $container, string $serviceName = '')
     {
         $this->container = $container;
         $this->serviceName = $serviceName;
